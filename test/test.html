@@ -1,0 +1,46 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title>zbc Vue test</title>
+	<link rel="stylesheet" href="test.css" />
+</head>
+<body>
+
+	<div id="app">
+		<div><input type="text" v-model="name" placeholder="你的名字" /></div>
+		<div><h1>你好，{{name}}</h1></div>
+		<div v-html="link">这是一个链接</div>
+		<div><a target="_blank" :href="url">这是一个v-bind连接</a></div>
+		<div v-pre>{{这里，v-pre 指令可以显示<双大括号>(不对内部文字进行编译)}}</div>
+		<div>
+			<button v-on:click="clickFn">按钮X</button>
+			<button @click="show=false" v-if="show">点击隐藏</button>
+		</div>
+		<div>{{resolvedText}}</div>
+
+		<!--计算和组件-->
+		<div><input v-model="num1"/></div>
+		<div><input v-model="num2" /></div>
+		<div><input v-model="num3" /></div>
+		<div>{{sum}}</div>
+		<!--计算和组件-->
+
+		<!--v-bind详解-->
+		<div></div>
+		<!--v-bind详解-->
+
+
+
+
+
+		<div></div>
+		<div></div>
+
+	</div>
+
+	<script src="../Vue@2.5.16/Vue.min.js"></script>
+	<script src="test.js"></script>
+
+</body>
+</html>

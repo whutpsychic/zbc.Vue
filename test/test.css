@@ -1,0 +1,25 @@
+﻿*{
+	margin:0;
+	padding:0;
+}
+
+ul{
+	list-style:none;
+}
+
+input,select,option{
+	height:24px;
+	font-size:18px;
+	text-indent:2px;
+}
+
+button{
+	margin:0 10px;
+	cursor:pointer;
+	height:30px;
+	padding:0 10px;
+}
+
+div{
+	margin:10px;
+}
