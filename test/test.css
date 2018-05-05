@@ -23,3 +23,37 @@ button{
 div{
 	margin:10px;
 }
+
+button.btn1 {
+  background-color:purple;
+  color:#fff;
+}
+
+button.btn2 {
+  background-color: #389edc;
+  color: #000;
+}
+
+button.btn3 {
+  background-color: orange;
+  color: #000;
+}
+
+input[type=radio],
+input[type=checkbox] {
+  width: 1em;
+  margin-left: 1em;
+}
+
+
+
+
+
+
+
+
+
+/***********************/
+[v-cloak]{
+  display:none;
+}

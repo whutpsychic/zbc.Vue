@@ -1,46 +1,145 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-	<meta charset="utf-8" />
-	<title>zbc Vue test</title>
-	<link rel="stylesheet" href="test.css" />
+  <meta charset="utf-8" />
+  <title>zbc Vue test</title>
+  <link rel="stylesheet" href="test.css" />
 </head>
 <body>
 
-	<div id="app">
-		<div><input type="text" v-model="name" placeholder="你的名字" /></div>
-		<div><h1>你好，{{name}}</h1></div>
-		<div v-html="link">这是一个链接</div>
-		<div><a target="_blank" :href="url">这是一个v-bind连接</a></div>
-		<div v-pre>{{这里，v-pre 指令可以显示<双大括号>(不对内部文字进行编译)}}</div>
-		<div>
-			<button v-on:click="clickFn">按钮X</button>
-			<button @click="show=false" v-if="show">点击隐藏</button>
-		</div>
-		<div>{{resolvedText}}</div>
+  <div id="app" v-cloak>
+    <div><input type="text" v-model="name" placeholder="你的名字" /></div>
+    <div><h1>你好，{{name}}</h1></div>
+    <div v-html="link">这是一个链接</div>
+    <div><a target="_blank" :href="url">这是一个v-bind连接</a></div>
+    <div v-pre>{{这里，v-pre 指令可以显示<双大括号>(不对内部文字进行编译)}}</div>
+    <div>
+      <button v-on:click="clickFn">按钮X</button>
+      <button @click="show=false" v-if="show">点击隐藏</button>
+    </div>
+    <div>{{resolvedText}}</div>
 
-		<!--计算和组件-->
-		<div><input v-model="num1"/></div>
-		<div><input v-model="num2" /></div>
-		<div><input v-model="num3" /></div>
-		<div>{{sum}}</div>
-		<!--计算和组件-->
+    <!--计算"和"组件-->
+    <div><input v-model="num1" /></div>
+    <div><input v-model="num2" /></div>
+    <div><input v-model="num3" /></div>
+    <div>{{sum}}</div>
+    <!--计算"和"组件-->
+    <!--v-bind实质上的意义是可以动态绑定节点上的属性值-->
+    <!--类名绑定-->
+    <div><button :class="{'btn1':cls1,'btn2':cls2,'btn3':cls3}" @click="toggleBtnCls">点我一切换此节点类名</button></div>
 
-		<!--v-bind详解-->
-		<div></div>
-		<!--v-bind详解-->
+    <!--条件语句-->
+    <div>
+      <p v-if="status===1" :style="{display:'inline'}">status为1时显示该行</p>
+      <p v-else-if="status===2" :style="{display:'inline'}">status为2时显示该行</p>
+      <p v-else :style="{display:'inline'}">否则显示该行</p>
+      <button @click="toggleStatus">点我以切换status值</button>
+    </div>
+
+    <!--循环指令-->
+    <div><button @click="showFor">{{ifshowText}}</button></div>
+    <div v-show="ifshow">
+      <ul>
+        <li v-for="(book, index) in books">{{index + book.name + book.extraText}}</li>
+      </ul>
+    </div>
+
+    <div v-show="ifshow">
+      <ul>
+        <template v-for="(book, index) in books">
+          <li>{{index}}</li>
+          <li>{{book.name}}</li>
+          <li>{{book.extraText}}</li>
+        </template>
+      </ul>
+    </div>
+
+    <div v-show="ifshow">
+      <ul>
+        <li v-for="(item, key, index) in templateObj">{{item}}</li>
+      </ul>
+      <ul>
+        <li v-for="(item, key, index) in templateObj">{{key}}</li>
+      </ul>
+      <ul>
+        <li v-for="(item, key, index) in templateObj">{{index}}</li>
+      </ul>
+    </div>
+
+    <!--如果不跟括号，则默认传入的参数是一个event事件，如果加了括号有没有定义，则参数为undefined-->
+    <div><button @click="clickFn2(2)">函数测试按钮</button></div>
+
+    <!--表单测试样本-->
+    <div>
+      <input type="radio" :checked="R1" />
+      <label>单选按钮</label>
+    </div>
+
+    <div>
+      <form id="form1">
+        <input type="radio" v-model="R2" value="r1" />
+        <label>r1选项</label>
+        <input type="radio" v-model="R2" value="r2" />
+        <label>r2选项</label>
+        <input type="radio" v-model="R2" value="r3" />
+        <label>r3选项</label>
+      </form>
+      <button @click="submit1">提交1</button>
+    </div>
+
+    <div>
+      <form id="form2">
+        <input type="checkbox" v-model="R3_1" value="r1" />
+        <label>r1 checkbox</label>
+        <input type="checkbox" v-model="R3_2" value="r2" />
+        <label>r2 checkbox</label>
+        <input type="checkbox" v-model="R3_3" value="r3" />
+        <label>r3 checkbox</label>
+      </form>
+      <button @click="submit2">提交2</button>
+
+    </div>
+
+    <div>
+      <select v-model="selector">
+        <option>html</option>
+        <option value="js">javascript</option>
+        <option>css</option>
+      </select>
+    </div>
+
+    <!--修饰符-->
+    <div>
+      <input v-model.lazy="lazyMsg" />
+      <span>{{lazyMsg}}</span>
+    </div>
+    <div>
+      <input v-model.number="numberMsg" />
+      <span>{{numberMsg}}</span>
+    </div>
+    <div>
+      <input v-model.trim="trimMsg" />
+      <span>{{trimMsg}}</span>
+    </div>
 
 
 
 
 
-		<div></div>
-		<div></div>
 
-	</div>
 
-	<script src="../Vue@2.5.16/Vue.min.js"></script>
-	<script src="test.js"></script>
+
+
+
+
+
+
+
+  </div>
+
+  <script src="../Vue@2.5.16/Vue.min.js"></script>
+  <script src="test.js"></script>
 
 </body>
 </html>
