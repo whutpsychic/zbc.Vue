@@ -1,0 +1,44 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>zbc Vue Components test</title>
+  <link rel="stylesheet" href="test.css" />
+</head>
+<body>
+
+  <div id="app" v-cloak>
+    <my-component msg="全局组件一的 props（msg）内容;" warning-text="警告内容"></my-component>
+    <session-component></session-component>
+  </div>
+
+  <div id="app2" v-cloak>
+    <!--<input/>-->
+    <input v-model="message" />
+    <component2 :msg="message"></component2>
+  </div>
+
+  <div id="app3" v-cloak>
+    <component3 @increase="handleGetTotal" @reduce="handleGetTotal"></component3>
+  </div>
+
+  <div id="app4" v-cloak>
+    {{message}}
+    <component4></component4>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+  <script src="../Vue@2.5.16/Vue.min.js"></script>
+  <script src="test.js"></script>
+
+</body>
+</html>
