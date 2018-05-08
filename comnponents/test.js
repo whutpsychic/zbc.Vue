@@ -128,29 +128,330 @@ var app4 = new Vue({
 })
 
 
+//递归组件
+var component5 = {
+
+	//name属性至关重要(就用于递归)
+	name: "component5",
+	props: {
+		countt:{type:Number,default:1}
+	},
+	template: "\
+	<div class='child5'>\
+		<component5\
+			:countt='countt+1'\
+			v-if='countt<4'>\
+		</component5 >\
+	</div >"
+}
+
+var app5 = new Vue({
+	el: '#app5',
+	components: {
+		"component5":component5
+	}
+})
+
+//动态组件
+var app6 = new Vue({
+	el: "#app6",
+	components: {
+		comA: { template: "<div>组件6A</div>" },
+		comB: { template: "<div>组件6B</div>" },
+		comC: { template: "<div>组件6C</div>" }
+	},
+	data: {
+		curr:"comA"
+	},
+	methods: {
+		changeCom: function (com) {
+			this.curr = "com" + com; 
+		}
+	}
+})
+
+//x-template 用法
+var app7 = new Vue({
+	el: "#app7",
+	components: {
+		"component7": { template: "#component7" }
+	}
+})
+
+//手动挂载实例
+
+//初始化一个模板
+var MyComponent = Vue.extend({
+	template: "<div>此乃是一个手动挂载的实例的内容{{name}}</div>",
+	data: function () {
+		return { name: "zbc" }
+	}
+})
+
+//写法一
+new MyComponent().$mount("#_app");
+
+//写法二
+new MyComponent({ el: "#_app" });
+
+//文档之外渲染并挂载
+var _com = new MyComponent().$mount();
+if (document.getElementById("_app"))
+	document.getElementById("_app").appendChild(_com.$el);
+
+/********************************************************************/
+/********************************************************************/
+/********************************************************************/
+/********************************************************************/
+
+/*真实组件开发*/
+/*一个数字输入框组件*/
+Vue.component('input-number',{
+	template: "<div class='input-number'>\
+	<input \
+		:value='currValue'\
+		@change='handleChange'\
+		@keydown='handleKeyinput'/>\
+	<button \
+		@click='handleDown'\
+		:disabled='currValue<=min'>-</button>\
+	<button \
+		@click='handleUp'\
+		:disabled='currValue>=max'>+</button>\
+	</div>",
+	props: {
+		max: { type: Number, default: Infinity },
+		min: { type: Number, default: -Infinity },
+		value: { type: Number, default: 0 }
+	},
+	data: function () {
+		return { currValue: this.value };
+	},
+
+	//????
+	//监听回调函数
+	watch:{
+		currValue: function (val) {
+			this.$emit('input', val);
+			this.$emit('on-change', val);
+		},
+		value: function (val) {
+			this.updateValue(val);
+		}
+	},
+
+
+	methods: {
+		updateValue: function (val) {
+			if (val > this.max) val = this.max;
+			if (val < this.min) val = this.min;
+			this.currValue = val;
+		},
+		isNumber: function (v) {
+			//return (/^-?[0-9]+\.{1}\d+$)|(^-?[1-9][0-9]*$)|(^-?0{1}$)/).test(v+'');
+			return (/^[0-9]+.?[0-9]*$/).test(v);
+		},
+		handleDown: function () {
+			if (this.currValue <= this.min) return;
+			this.currValue -= 1;
+		},
+		handleUp: function () {
+			if (this.currValue >= this.max) return;
+			this.currValue += 1;
+		},
+		handleChange: function (e) {
+			var val = e.target.value.trim();
+			var max = this.max;
+			var min = this.min;
+
+			if (this.isNumber(val)) {
+				val = Number(val);
+				this.currValue = val;
+
+				if (val > max) {
+					this.currValue = max;
+				}
+				else if (val < min) {
+					this.val = min;
+				}
+				else {
+					e.target.value = (this.currValue);
+				}
+			}
+			else {
+				e.target.value = NaN;
+			}
+			//this.input();
+			//this.onChange();
+		},
+		//自定义函数
+		input: function (v) {
+			console.log('进入input自定义函数', v);
+		},
+		onChange: function (v) {
+			console.log('进入onChange自定义函数', v);
+		},
+
+		//添加事件
+		handleKeyinput: function (e) {
+
+			console.log(parseInt(e.target.value, 10))
+			//加法操作
+			if (e.keyCode === 107) {
+				if (parseInt(e.target.value, 10) < this.max) this.handleUp();
+				else {
+					e.target.value = this.max;
+				};
+			}
+
+			//减法操作
+			else if (e.keyCode === 109) {
+				if (parseInt(e.target.value, 10) > this.min) this.handleDown();
+				else {
+					e.target.value = this.min;
+				};
+			}
+
+		},
+
+	},
+	mounted: function () {
+		this.updateValue(this.value);
+	}
+})
+
+var input = new Vue({
+	el: "#component1",
+	data: {
+		value:5
+	}
+})
+
+
+/********************************************************************/
+
+Vue.component('pane', {
+	name: 'pane',
+	template: "\
+	<div class='pane' v-show='show'>\
+			<slot></slot>\
+	</div>",
+	data: function () {
+		return { show: true };
+	},
+	props: {
+		name: { type: String },
+		label: { type: String, default: '' }
+	},
+	methods: {
+		updateNav() {
+			this.$parent.updateNav();
+		},
+
+	},
+	watch: {
+		label() {
+			this.updateNav();
+		}
+	},
+	mounted() {
+		this.updateNav();
+	}
+})
+
+Vue.component('tabs',{
+	template: "\
+	<div class='tabs'>\
+		<div class='tabs-bar'>\
+			<div\
+				:class='tabCls(item)'\
+				v-for='(item, index) in navList'\
+				@click='handleChange(index)'>\
+					{{item.label}}\
+		</div>\
+		<div class='tabs-content'>\
+			<slot></slot>\
+		</div>\
+	</div>",
+	props: {
+		value:[String,Number]
+	},
+	data: function () {
+		return {
+			navList: [],
+			currentValue:this.value
+		};
+	},
+	methods: {
+		tabCls(item) {
+			return ["tabs-tab", {
+				'tabs-tab-active': item.name === this.currentValue
+			}]
+		},
+		handleChange(index) {
+			var nav = this.navList[index];
+			var name = nav.name;
+
+			this.currentValue = name;
+			this.$emit('input', name);
+			this.$emit('on-click', name);
+		},
+		watch: {
+			value(val) {
+				this.currentValue = val;
+			},
+			currentValue() {
+				this.updateStatus();
+			}
+		},
+		getTabs() {
+
+			//通过遍历组件得到所有的pane组件
+			return this.$children.filter(function (item) {
+				return item.$options.name === 'pane';
+			})
+		},
+		updateNav() {
+			this.navList = [];
+
+			var _this = this;
+			this.getTabs().forEach(function (pane, index) {
+				_this.navList.push({
+					label: pane.label,
+					name: pane.name || index
+				});
+
+				//如果没有给pane设置name，默认设置索引
+				if (!pane.name) pane.name = index;
+
+				//设置当前选中的Tab索引
+				if (index === 0) {
+					if (!_this.currentValue) {
+						_this.currentValue = pane.name || index;
+					}
+				}
+
+			});
+			this.updateStatus();
+		},
+		updateStatus() {
+			var tabs = this.getTabs();
+			var _this = this;
+
+			//显示当前选中的tab对应的pane组件，隐藏没选中的
+			tabs.forEach(function (tab) {
+				return tab.show = tab.name === _this.currentValue;
+			})
+		}
+	}
+})
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-//setTimeout(function () { app2.message = "hehe"; }, 3000);
-
-
-
-
-
-
-
-
-
+var APP2 = new Vue({
+	el: "#component2",
+	data: {
+		activeKey:'1'
+	}
+})

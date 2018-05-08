@@ -1,0 +1,38 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>zbc slot test</title>
+  <link rel="stylesheet" href="test.css" />
+</head>
+<body>
+
+  <div id="app" v-cloak>
+		<zbc>
+			<p>slot内容一</p>
+			<span>slot内容二</span>
+		</zbc>
+
+		<zbc2>
+			<h2 slot="header">标题</h2> 
+
+			<div slot="footer">底部信息</div>
+		</zbc2>
+
+
+		<zbc3 :books="books">
+
+			<template slot="book" scope="props">
+				<li>{{props.bookName}}</li>
+
+			</template>
+
+
+		</zbc3>
+  </div>
+
+
+  <script src="../Vue@2.5.16/Vue.min.js"></script>
+	<script src="test.js"></script>
+</body>
+</html>

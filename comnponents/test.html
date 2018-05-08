@@ -27,15 +27,46 @@
     <component4></component4>
   </div>
 
+	<div id="app5" v-cloak>
+		<component5></component5>
+	</div>
 
 
+	<div id="app6" v-cloak>
+		<component :is="curr"></component>
+		<button @click="changeCom('A')">切换至组件A</button>
+		<button @click="changeCom('B')">切换至组件B</button>
+		<button @click="changeCom('C')">切换至组件C</button>
+	</div>
+
+	<div id="app7" v-cloak>
+		<component7></component7>
+		<script type="text/x-template" id="component7">
+			<div>组件7内容z</div>
+		</script>
+	</div>
+
+	<div id="_app"></div>
+
+	<div id="component1" v-cloak>
+		<input-number v-model="value" :max="10" :min="0"></input-number>
+	</div>
 
 
+	<div id="component2" v-cloak>
+		<tabs v-model="activeKey">
+			<pane label="标签一" name="1">
+				标签一的内容
+			</pane>
+			<pane label="标签二" name="2">
+				标签二的内容
+			</pane>
+			<pane label="标签三" name="3">
+				标签三的内容
+			</pane>
+		</tabs>
 
-
-
-
-
+	</div>
 
   <script src="../Vue@2.5.16/Vue.min.js"></script>
   <script src="test.js"></script>
