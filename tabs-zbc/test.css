@@ -39,27 +39,25 @@
 	content:'';
 	display:block;
 	height:1px;
-	background:#3399ff;
+	/*background:#3399ff;*/
 	position:absolute;
 	top:0;
-	left:0;
-
 }
 
 .tabs-content{
 	padding:8px 0;
 }
 
-
-
-
-
-
-
-
+.tabs-tab.tabs-closable:before {
+	content: 'x';
+	position: absolute;
+	top: -8px;
+	right: 0;
+	height: 10px;
+	width: 10px;
+}
 /***********************/
 /***********************/
-
 /***********************/
 [v-cloak] {
 	display: none;

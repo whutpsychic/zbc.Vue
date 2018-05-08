@@ -17,27 +17,33 @@ var tabs = {
 	props: {
 		value: { type: [String, Number] }
 	},
+
+	//设置初始值
 	data: function () {
 		return {
 			navList: [
-				{label:'标签一',name:'0'},
-				{label:'标签二',name:'1'},
-				{label:'标签三',name:'2'}
+				//{label:'标签一',name:'0'},
+				//{label:'标签二',name:'1'},
+				//{label:'标签三',name:'2'}
 			],
 			currentValue: '1'
 		};
 	},
 	methods: {
 		tabCls: function (item) {
+			console.log(item)
 			return [
 				"tabs-tab",
 				{
 					'tabs-tab-active': item.name === this.currentValue
+				},
+				{
+					"tabs-closable": item.closable
 				}
 			]
 		},
 		handleChange: function (index) {
-			console.log('进入tab点击事件，你点击的是第' + index + '个tab');
+			//console.log('进入tab点击事件，你点击的是第' + index + '个tab');
 
 			var nav = this.navList[index];
 			var name = nav.name;
@@ -54,6 +60,8 @@ var tabs = {
 				return item.$options.name === 'pane';
 			})
 		},
+
+		//更新Nav数组
 		updateNav: function () {
 			this.navList = [];
 			var _this = this;
@@ -61,7 +69,8 @@ var tabs = {
 			this.getTabs().forEach(function (pane, index) {
 				_this.navList.push({
 					label: pane.label,
-					name: pane.name || index
+					name: pane.name || index,
+					closable: pane.closable
 				});
 
 				//如果没有给pane设置name，默认设置索引
@@ -76,6 +85,10 @@ var tabs = {
 
 			});
 			this.updateStatus();
+
+			//刷新后的操作
+			console.log('pane 已刷新,现在显示的是第' + this.currentValue+'个 pane')
+
 		},
 		updateStatus: function () {
 			var tabs = this.getTabs();
@@ -83,7 +96,6 @@ var tabs = {
 
 			//显示当前选中的tab对应的pane组件，隐藏没选中的
 			tabs.forEach(function (tab) {
-				console.log(tab)
 				return tab.show = tab.name === _this.currentValue;
 			})
 		},
