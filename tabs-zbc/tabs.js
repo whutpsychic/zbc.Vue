@@ -24,7 +24,7 @@ var tabs = {
 				{label:'标签二',name:'1'},
 				{label:'标签三',name:'2'}
 			],
-			currentValue: '0'
+			currentValue: '1'
 		};
 	},
 	methods: {
