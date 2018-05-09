@@ -1,4 +1,21 @@
-#app{
-	font-size:24px;
-	color:purple;
+
+div[data-v-5affe39c]{
+color:#389edc;
+font-size:24px;
+}
+
+h1[data-v-ce11aeae]{
+color:#3399ff;
+font-size:24px;
+}
+
+button[data-v-0e1d7ced]{
+color:#fff;
+padding:4px 8px;
+font-size:24px;
+}
+button.active[data-v-0e1d7ced]{
+position:relative;
+top:1px;
+left:1px;
 }
