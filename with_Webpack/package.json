@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "webpack-dev-server --open --config webpack.config.js"
+    "dev": "webpack-dev-server --open --history-api-fallback --config webpack.config.js"
   },
   "author": "zbc",
   "license": "ISC",
@@ -18,15 +18,19 @@
     "babel-runtime": "^6.26.0",
     "css-loader": "^0.28.11",
     "extract-text-webpack-plugin": "^2.1.2",
+    "file-loader": "^1.1.11",
     "style-loader": "^0.21.0",
+    "url-loader": "^1.0.1",
     "vue-hot-reload-api": "^2.3.0",
     "vue-loader": "^11.3.4",
+    "vue-router": "^3.0.1",
     "vue-style-loader": "^4.1.0",
     "vue-template-compiler": "^2.5.16",
     "webpack": "^2.7.0",
     "webpack-dev-server": "^2.11.2"
   },
   "dependencies": {
-    "vue": "^2.5.16"
+    "vue": "^2.5.16",
+    "vuex": "^3.0.1"
   }
 }

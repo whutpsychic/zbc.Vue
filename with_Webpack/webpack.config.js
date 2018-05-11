@@ -5,13 +5,20 @@ var config = {
 	entry: { main: './demo/main' },
 	output: {
 		path: path.join(__dirname, './dist'),
+
+		//路径(如果编译后想本地打开，则降至改为'./dist/')
 		publicPath: '/dist/',
+
 		filename:'main.js'
 	},
 	module: {
 
 		//
 		rules: [
+			{
+				test: /\.(gif|jpg|png|woff|svg|eot|ttf)$/,
+				loader:"url-loader?limit=1024&name=images/[hash:8].[name].[ext]"
+			},
 			{
 				test: /\.css$/,
 				//use:['style-loader','css-loader'],

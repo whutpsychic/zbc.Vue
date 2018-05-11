@@ -8,16 +8,15 @@
 
 <template>
 	<div>
-		<router-view></router-view>
-	</div>
+		<div>介绍页</div>
+		<router-link to="/index">xxxxxxx</router-link>
+</div>
 </template>
 
 <script>
 	
-
 	
 	export default{
-
 
 
 	}

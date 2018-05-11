@@ -7,17 +7,14 @@
 </style>
 
 <template>
-	<div>
-		<router-view></router-view>
-	</div>
+		<div>user页</div>
+
 </template>
 
 <script>
 	
-
 	
 	export default{
-
 
 
 	}
